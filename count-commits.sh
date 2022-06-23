@@ -4,12 +4,10 @@ total_args=$#
 
 if [[ $total_args -lt 1 ]]; then
 cat <<EOF
-Missing arguments
+usage: $0 <path> [<author> <author> ...]
 
-Execution: <PATH> [<AUTHOR> <AUTHOR> ...]
-
-PATH: Absolute path
-AUTHOR: (Optional) Author name
+    path        Absolute path to react repo
+    author      (Optional) Author name
 EOF
 exit 1
 fi
