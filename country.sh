@@ -16,12 +16,12 @@ while [ $# -gt 0 ]; do
     url="https://restcountries.com/v3.1/name/${country}"
     
     response=$(curl --write-out '%{http_code}' --silent --output /dev/null $url)
-    [[ $response -ne 200 ]] && echo "Error: ${country}"
+    [[ $response -ne 200 ]] && printf "Error: ${country}\r\n\r\n"
     
     if [[ $response -eq 200 ]]; then
-        curl -s $url | jq -r '.[] | {Name: .name?.common?, Capital: (.capital? // [] | join(", ")?), Population: .population?, Languages: (.languages? // [] | join(", ")?), Currency: ([.currencies[]?.symbol?, .currencies[]?.name?] | join(" ")?) } | to_entries[] | "\(.key):\t\(.value)"'
+        curl -s $url | jq -r '.[] | ["Name: \(.name?.common?)", "Capital: \(.capital? // [] | join(", ")?)", "Population: \(.population?)", "Languages: \(.languages? // [] | join(", ")?)", "Currency: \([.currencies[]?.symbol?, .currencies[]?.name?] | join(" ")?)", ""] | .[]'
+        # TODO: Remove last empty line
     fi
     shift
-    [[ $# -gt 0 ]] && echo
 done
 

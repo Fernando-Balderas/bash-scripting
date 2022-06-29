@@ -13,6 +13,7 @@ exit 1
 fi
 
 path=$1
+[[ ! -d $path ]] && exit 1
 
 while [ $# -gt 1 ]; do
     count=$(find $path -type f \! -path "*node_modules*" \! -path "*.git*" \( -name "*.js" -o -name "*.jsx" -o -name "*.ts" -o  -name "*.tsx" \) -exec grep -o -E "import[A-Za-z\{\}\"\'\/\. ]*from[A-Za-z\{\}\"\'\/\. ]*$2" '{}' \; | wc -l)
